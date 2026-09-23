@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Kegiatan UHW Perbanas</title>
+</head>
+<body>
+
+    <header>
+        <h1>Seminar Nasional Sistem Informasi UHW Perbanas</h1>
+        <h2>Transformasi Digital dan Bisnis di Era Modern</h2>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#deskripsi">Tentang Acara</a></li> <!-- Tautan Internal -->
+            <li><a href="#jadwal">Jadwal Kegiatan</a></li> <!-- Tautan Internal -->
+            <li><a href="#formulir">Form Daftar</a></li> <!-- Tautan Internal -->
+            <li><a href="https://www.perbanas.ac.id/index.php/en" target="_blank">Website UHW Perbanas</a></li> <!-- Tautan Eksternal -->
+        </ul>
+    </nav>
+
+    <main>
+        
+    
+        <section id="deskripsi">
+            <article>
+                <h3>Deskripsi Kegiatan</h3>
+                <p>HIMA Sistem Informasi Universitas Hayam Wuruk (UHW) Perbanas menyelenggarakan Seminar Nasional tahunan. Kegiatan ini bertujuan untuk memberikan wawasan kepada mahasiswa mengenai tren teknologi terkini di dunia perbankan dan bisnis.</p>
+            </article>
+
+            <figure>
+                <img src="contoh foto.jpg" alt="Poster Seminar UHW Perbanas" width="400">
+                <figcaption>Gambar 1. Poster Resmi Seminar Nasional UHW Perbanas</figcaption>
+            </figure>
+        </section>
+
+        <section id="jadwal">
+            <h3>Jadwal Kegiatan</h3>
+            <table border="1" cellpadding="8" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Waktu</th>
+                        <th>Nama Kegiatan</th>
+                        <th>Pemateri / Penanggung Jawab</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>08:00 - 09:00</td>
+                        <td>Registrasi Peserta</td>
+                        <td>Panitia HIMA SI</td>
+                    </tr>
+                    <tr>
+                        <td>09:00 - 11:30</td>
+                        <td>Materi: Big Data in Business</td>
+                        <td>Bapak Dr. Budi Santoso (Praktisi Data)</td>
+                    </tr>
+                    <tr>
+                        <td>11:30 - 12:00</td>
+                        <td>Sesi Tanya Jawab & Penutup</td>
+                        <td>Moderator UHW Perbanas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="formulir">
+            <h3>Formulir Pendaftaran</h3>
+            <form action="#" method="POST">
+                
+                <label for="nama">Nama Lengkap:</label><br>
+                <input type="text" id="nama" name="nama" required><br><br>
+
+                <label for="nim">NIM:</label><br>
+                <input type="number" id="nim" name="nim" required><br><br>
+
+                <label for="email">Alamat Email:</label><br>
+                <input type="email" id="email" name="email" required><br><br>
+
+                <label for="telepon">Nomor Telepon / WA:</label><br>
+                <input type="tel" id="telepon" name="telepon" required><br><br>
+
+                <label for="prodi">Program Studi:</label><br>
+                <select id="prodi" name="prodi" required>
+                    <option value="">-- Pilih Program Studi --</option>
+                    <option value="S1 Sistem Informasi">S1 Sistem Informasi</option>
+                    <option value="S1 Akuntansi">S1 Akuntansi</option>
+                    <option value="S1 Manajemen">S1 Manajemen</option>
+                    <option value="S1 Ekonomi Syariah">S1 Ekonomi Syariah</option>
+                </select><br><br>
+
+                <label>Jenis Kelamin:</label><br>
+                <input type="radio" id="pria" name="gender" value="Laki-laki" required>
+                <label for="pria">Laki-laki</label>
+                <input type="radio" id="wanita" name="gender" value="Perempuan" required>
+                <label for="wanita">Perempuan</label><br><br>
+
+                <label>Pilihan Sesi:</label><br>
+                <input type="checkbox" id="sesi1" name="sesi" value="Sesi Pagi">
+                <label for="sesi1">Sesi Pagi (09:00 - 11:30)</label><br>
+                <input type="checkbox" id="sesi2" name="sesi" value="Sesi Siang">
+                <label for="sesi2">Sesi Siang (13:00 - 15:00)</label><br><br>
+
+                <label for="alasan">Alasan Mengikuti Kegiatan:</label><br>
+                <textarea id="alasan" name="alasan" rows="4" cols="40" required></textarea><br><br>
+
+                <input type="checkbox" id="setuju" name="setuju" required>
+                <label for="setuju">Saya menyetujui ketentuan dan persyaratan kegiatan ini.</label><br><br>
+
+                <button type="submit">Daftar Sekarang</button>
+            </form>
+        </section>
+
+    </main>
+
+    <aside>
+        <h4>Info Tambahan</h4>
+        <p>Peserta yang mengikuti kegiatan secara penuh akan mendapatkan E-Sertifikat dan poin SKKM UHW Perbanas.</p>
+    </aside>
+
+    <hr>
+
+    <footer>
+        <p>&copy; 2026 Universitas Hayam Wuruk Perbanas Surabaya. Dibuat untuk Latihan HTML.</p>
+    </footer>
+
+</body>
+</html>
