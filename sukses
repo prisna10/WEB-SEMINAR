@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Berhasil</title>
+</head>
+<body style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+
+    <h2 style="color: green;">Pendaftaran Berhasil!</h2>
+    <p>Terima kasih, data pendaftaran Seminar Nasional UHW Perbanas telah kami terima.</p>
+    
+    <br>
+    <!-- Pastikan index.html diganti dengan nama file form utamamu -->
+    <a href="index.html" style="text-decoration: none; padding: 10px 20px; background-color: #0056b3; color: white; border-radius: 5px;">Kembali ke Halaman Utama</a>
+
+</body>
+</html>
