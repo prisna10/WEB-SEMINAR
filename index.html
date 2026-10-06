@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seminar Nasional Sistem Informasi UHW Perbanas</title>
+    
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .hero-section {
+            background-color: #003366;
+            color: white;
+            padding: 60px 0;
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+   <!-- Navigasi yang konsisten -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #002244;">
+        <div class="container">
+            
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+                <img src="uhw.png" alt="Logo UHW Perbanas" height="40" class="me-2"> 
+                UHW
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#beranda">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#produk">Produk & Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+                    
+                    <!-- Perubahan: Menambahkan Tautan Resmi Website UHW Perbanas -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.perbanas.ac.id/" target="_blank">Website Kampus</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Header / Hero Section -->
+    <header id="beranda" class="hero-section text-center">
+        <div class="container">
+            <h1 class="fw-bold">Seminar Nasional Sistem Informasi</h1>
+            <h3 class="mb-4">Transformasi Digital dan Bisnis di Era Modern</h3>
+            <p class="lead">Bersama Dr. Budi Santoso (Praktisi Data)</p>
+            <a href="#produk" class="btn btn-warning btn-lg mt-3 fw-bold">Lihat Tiket & Merchandise</a>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        
+        <section id="produk" class="mb-5">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Produk & Layanan Seminar</h2>
+                <p class="text-muted">Pilih tiket dan merchandise resmi Seminar Nasional UHW Perbanas.</p>
+            </div>
+
+            <!-- Pengaturan Grid Bootstrap responsif: col-12 (layar kecil), col-md-6 (layar sedang), col-lg-4 (layar besar) -->
+            <div class="row g-4">
+                
+                <!-- Kartu 1 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="contoh foto.jpg" class="card-img-top" alt="Tiket Reguler">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-primary mb-2 align-self-start">Tiket</span>
+                            <h5 class="card-title fw-bold">Tiket Reguler</h5>
+                            <h6 class="text-success fw-bold">Rp 50.000</h6>
+                            <p class="card-text text-muted">Akses masuk ke seminar, snack box, dan e-sertifikat berpoin SKKM.</p>
+                            <button class="btn btn-outline-primary mt-auto">Lihat Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kartu 2 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="contoh foto.jpg" class="card-img-top" alt="Tiket VIP">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-primary mb-2 align-self-start">Tiket</span>
+                            <h5 class="card-title fw-bold">Tiket VIP</h5>
+                            <h6 class="text-success fw-bold">Rp 100.000</h6>
+                            <p class="card-text text-muted">Kursi barisan depan, makan siang eksklusif, e-sertifikat, dan sesi foto.</p>
+                            <button class="btn btn-outline-primary mt-auto">Lihat Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kartu 3 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="contoh foto.jpg" class="card-img-top" alt="Kaos Seminar">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-warning text-dark mb-2 align-self-start">Merchandise</span>
+                            <h5 class="card-title fw-bold">Kaos Seminar Resmi</h5>
+                            <h6 class="text-success fw-bold">Rp 75.000</h6>
+                            <p class="card-text text-muted">Kaos katun premium edisi khusus "Transformasi Digital".</p>
+                            <button class="btn btn-outline-primary mt-auto">Lihat Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kartu 4 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="contoh foto.jpg" class="card-img-top" alt="Totebag">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-warning text-dark mb-2 align-self-start">Merchandise</span>
+                            <h5 class="card-title fw-bold">Totebag Kanvas</h5>
+                            <h6 class="text-success fw-bold">Rp 35.000</h6>
+                            <p class="card-text text-muted">Totebag ramah lingkungan dengan logo HIMA SI UHW Perbanas.</p>
+                            <button class="btn btn-outline-primary mt-auto">Lihat Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kartu 5 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="contoh foto.jpg" class="card-img-top" alt="Buku Materi">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-info text-dark mb-2 align-self-start">Edukasi</span>
+                            <h5 class="card-title fw-bold">Buku Modul Big Data</h5>
+                            <h6 class="text-success fw-bold">Rp 45.000</h6>
+                            <p class="card-text text-muted">Buku panduan materi dari Dr. Budi Santoso untuk referensi perkuliahan.</p>
+                            <button class="btn btn-outline-primary mt-auto">Lihat Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kartu 6 -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="contoh foto.jpg" class="card-img-top" alt="Sertifikat Cetak">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-secondary mb-2 align-self-start">Aksesori</span>
+                            <h5 class="card-title fw-bold">Cetak Sertifikat & Pigura</h5>
+                            <h6 class="text-success fw-bold">Rp 30.000</h6>
+                            <p class="card-text text-muted">Layanan cetak sertifikat fisik lengkap dengan pigura minimalis.</p>
+                            <button class="btn btn-outline-primary mt-auto">Lihat Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Halaman Kontak / Formulir Pemesanan -->
+        <section id="kontak" class="py-5 bg-white rounded shadow-sm px-4 border">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h3 class="fw-bold mb-4 text-center">Hubungi Kami / Pemesanan</h3>
+                    <p class="text-center text-muted mb-4">Isi formulir di bawah ini untuk menghubungi panitia atau melakukan pemesanan tiket dan merchandise.</p>
+                    
+                    <!-- Form pendaftaran yang diarahkan ke file sukses.html -->
+                    <form action="sukses.html" method="GET">
+                        <div class="mb-3">
+                            <label for="nama" class="form-label fw-bold">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama Anda" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Alamat Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="contoh@email.com" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="layanan" class="form-label fw-bold">Pilihan Produk / Layanan</label>
+                            <select class="form-select" id="layanan" name="layanan" required>
+                                <option value="" selected disabled>-- Pilih Produk/Layanan --</option>
+                                <option value="Tiket Reguler">Tiket Reguler</option>
+                                <option value="Tiket VIP">Tiket VIP</option>
+                                <option value="Kaos Seminar">Kaos Seminar Resmi</option>
+                                <option value="Totebag Kanvas">Totebag Kanvas</option>
+                                <option value="Buku Modul">Buku Modul Big Data</option>
+                                <option value="Cetak Sertifikat">Cetak Sertifikat & Pigura</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="jumlah" class="form-label fw-bold">Jumlah Pesanan</label>
+                            <input type="number" class="form-control" id="jumlah" name="jumlah" min="1" placeholder="Masukkan jumlah" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="pesan" class="form-label fw-bold">Pesan Tambahan</label>
+                            <textarea class="form-control" id="pesan" name="pesan" rows="4" placeholder="Tuliskan catatan khusus atau pertanyaan Anda di sini..."></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Kirim Pesan & Daftar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer yang konsisten -->
+    <footer class="text-center py-4 text-light mt-5" style="background-color: #002244;">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Universitas Hayam Wuruk Perbanas Surabaya. Dibuat untuk Latihan HTML & Bootstrap.</p>
+        </div>
+    </footer>
+
+    <!-- Memuat JavaScript Bootstrap 5.3 secara lokal sebelum tag penutup body -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
