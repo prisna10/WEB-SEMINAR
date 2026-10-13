@@ -109,19 +109,25 @@
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #001a33;">
         <div class="container">
             <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
-                <img src="uhw.png" alt="Logo UHW Perbanas" height="40" class="me-2 bg-white rounded p-1"> 
+                <img src="uhw.png" alt="Logo UHW Perbanas" height="40" class="me-2"> 
                 UHW
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link text-white" href="#beranda">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="#produk">Produk & Layanan</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="#kontak">Kontak</a></li>
-                    <li class="nav-item">
+                    <li class="nav-item me-3">
                         <a class="nav-link text-info fw-bold" href="https://www.perbanas.ac.id/" target="_blank">Website Kampus</a>
+                    </li>
+                    <!-- Tombol Baru Khusus Akses Data Pendaftar -->
+                    <li class="nav-item">
+                        <a href="data_pendaftar.php" class="btn btn-outline-light btn-sm rounded-pill fw-bold px-3">
+                             Login
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -305,7 +311,7 @@
 
     <footer class="text-center py-4 text-light mt-5" style="background-color: #001a33;">
         <div class="container">
-            <p class="mb-0">&copy; 2026 Universitas Hayam Wuruk Perbanas Surabaya. <br><small class="text-white-50">Dibuat untuk Latihan HTML & Bootstrap.</small></p>
+            <p class="mb-0">&copy; 2026 Universitas Hayam Wuruk Perbanas Surabaya. <br><small class="text-white-50">Dibuat untuk Latihan Pemograman Berbasis Web.</small></p>
         </div>
     </footer>
 
@@ -318,6 +324,23 @@
 
     <!-- Modal Pop-up Sukses -->
     <!-- Modal Pop-up Detail Produk -->
+    <div class="modal fade" id="modalSukses" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg text-center p-4" style="border-radius: 15px;">
+          <div class="modal-body">
+            <div class="mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#198754" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            </div>
+            <h2 class="text-success fw-bold mb-3">Pendaftaran Berhasil!</h2>
+            <p class="text-muted mb-4 fs-5">Terima kasih, data pemesanan dan pendaftaran Seminar Nasional telah kami terima.</p>
+            <button type="button" class="btn btn-primary px-4 btn-lg fw-bold rounded-pill" data-bs-dismiss="modal">Tutup Jendela</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="modalDetail" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 15px;">
