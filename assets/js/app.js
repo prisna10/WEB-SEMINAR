@@ -13,7 +13,7 @@ const dataProduk = {
     tiketVip: { nama: "Tiket VIP", harga: "Rp 100.000", deskripsi: "Akses jalur cepat (fast track) dan merchandise spesial saat registrasi ulang. Termasuk kursi barisan depan, makan siang eksklusif, e-sertifikat, dan sesi foto.", gambar: "contoh foto.jpg" },
     kaos: { nama: "Kaos Seminar Resmi", harga: "Rp 75.000", deskripsi: "Tersedia ukuran S, M, L, XL, XXL. Bahan cotton combed 30s premium edisi khusus 'Transformasi Digital'.", gambar: "contoh foto.jpg" },
     totebag: { nama: "Totebag Kanvas", harga: "Rp 35.000", deskripsi: "Bahan kanvas tebal dengan resleting. Ukuran 30x40 cm ramah lingkungan dengan logo HIMA SI UHW Perbanas.", gambar: "contoh foto.jpg" },
-    bukuModul: { nama: "Buku Modul Big Data", harga: "Rp 45.000", deskripsi: "Berisi 50 halaman materi cetak berwarna dan ringkasan studi kasus sebagai panduan materi dari Dr. Budi Santoso.", gambar: "contoh foto.jpg" },
+    bukuModul: { nama: "Buku Modul Big Data", harga: "Rp 45.000", deskripsi: "Berisi 50 halaman materi cetak berwarna dan ringkasan studi kasus sebagai panduan materi dari Prisna Dwi Hanggandau.", gambar: "contoh foto.jpg" },
     sertifikat: { nama: "Cetak Sertifikat & Pigura", harga: "Rp 30.000", deskripsi: "Dicetak di kertas linen premium dengan pigura kayu minimalis ukuran A4. Layanan cetak sertifikat fisik lengkap.", gambar: "contoh foto.jpg" }
 };
 
