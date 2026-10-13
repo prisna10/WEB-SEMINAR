@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // -------------------------------------------------------------
     // GANTI USERNAME DAN PASSWORD ADMIN DI SINI
     // -------------------------------------------------------------
-    if ($username === 'admin' && $password === 'admin123') {
+    if ($username === 'Prisna' && $password === 'PrisnaLucu') {
         $_SESSION['admin_logged_in'] = true;
         header("Location: data_pendaftar.php");
         exit();

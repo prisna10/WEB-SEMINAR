@@ -130,7 +130,7 @@ $result = $conn->query($sql);
                                     <th class="py-3">No</th>
                                     <th class="py-3">Nama Lengkap</th>
                                     <th class="py-3">Email</th>
-                                    <th class="py-3">Harga Layanan</th>
+                                    <th class="py-3">Total Harga</th>
                                     <th class="py-3 text-center">Jml</th>
                                     <th class="py-3">Pesan Tambahan</th>
                                     <th class="py-3">Waktu Daftar</th>
@@ -154,7 +154,8 @@ $result = $conn->query($sql);
                                         echo "<td class='fw-bold'>" . $no++ . "</td>";
                                         echo "<td><span class='fw-semibold'>" . htmlspecialchars($row['nama']) . "</span></td>";
                                         echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                                        echo "<td><span class='badge bg-success bg-opacity-10 text-success fs-6 border border-success border-opacity-25'>Rp " . number_format($row['layanan'], 0, ',', '.') . "</span></td>";
+                                        $total_harga = (int)$row['layanan'] * (int)$row['jumlah'];
+                                        echo "<td><span class='badge bg-success bg-opacity-10 text-success fs-6 border border-success border-opacity-25'>Rp " . number_format($total_harga, 0, ',', '.') . "</span></td>";
                                         echo "<td class='text-center fw-bold'>" . $row['jumlah'] . "</td>";
                                         
                                         $pesan = htmlspecialchars($row['pesan']);
