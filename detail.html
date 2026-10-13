@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Produk - Seminar UHW</title>
+    <!-- Menghubungkan CSS Bootstrap -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+</head>
+<body class="bg-light d-flex align-items-center min-vh-100 py-5">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card shadow-sm border-0 p-4 p-md-5">
+                    
+                    <!-- Area Gambar yang Ditambahkan -->
+                    <div class="text-center mb-4">
+                        <img id="gambar-detail" src="" alt="Memuat gambar..." class="img-fluid rounded shadow-sm" style="max-height: 300px; width: 100%; object-fit: cover;">
+                    </div>
+                    
+                    <!-- Area Teks -->
+                    <span id="kategori-detail" class="badge bg-primary mb-3 align-self-start fs-6">Memuat...</span>
+                    <h2 id="judul-detail" class="fw-bold mb-2">Memuat data...</h2>
+                    <h4 id="harga-detail" class="text-success fw-bold mb-4"></h4>
+                    <p id="deskripsi-detail" class="fs-5 text-muted mb-5"></p>
+                    
+                    <a href="index.html" class="btn btn-outline-primary btn-lg px-4 w-100">
+                        Kembali ke Halaman Utama
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script internal untuk menangkap data dari index.html -->
+    <script>
+        // Menggunakan Objek untuk menyimpan semua informasi (Ditambahkan properti 'gambar')
+        const dataProduk = {
+            tiketReguler: { kategori: "Tiket", nama: "Tiket Reguler", harga: "Rp 50.000", deskripsi: "Detail: Tiket akan dikirimkan via email H-1 acara. Berlaku untuk 1 orang dengan akses masuk ke seminar, snack box, dan e-sertifikat berpoin SKKM.", gambar: "contoh foto.jpg" },
+            tiketVip: { kategori: "Tiket", nama: "Tiket VIP", harga: "Rp 100.000", deskripsi: "Detail: Akses jalur cepat (fast track) dan merchandise spesial saat registrasi ulang. Termasuk kursi barisan depan, makan siang eksklusif, e-sertifikat, dan sesi foto.", gambar: "contoh foto.jpg" },
+            kaos: { kategori: "Merchandise", nama: "Kaos Seminar Resmi", harga: "Rp 75.000", deskripsi: "Detail: Tersedia ukuran S, M, L, XL, XXL. Bahan cotton combed 30s premium edisi khusus 'Transformasi Digital'.", gambar: "contoh foto.jpg" },
+            totebag: { kategori: "Merchandise", nama: "Totebag Kanvas", harga: "Rp 35.000", deskripsi: "Detail: Bahan kanvas tebal dengan resleting. Ukuran 30x40 cm ramah lingkungan dengan logo HIMA SI UHW Perbanas.", gambar: "contoh foto.jpg" },
+            bukuModul: { kategori: "Edukasi", nama: "Buku Modul Big Data", harga: "Rp 45.000", deskripsi: "Detail: Berisi 50 halaman materi cetak berwarna dan ringkasan studi kasus sebagai panduan materi dari Dr. Budi Santoso untuk referensi perkuliahan.", gambar: "contoh foto.jpg" },
+            sertifikat: { kategori: "Aksesori", nama: "Cetak Sertifikat & Pigura", harga: "Rp 30.000", deskripsi: "Detail: Dicetak di kertas linen premium dengan pigura kayu minimalis ukuran A4. Layanan cetak sertifikat fisik lengkap.", gambar: "contoh foto.jpg" }
+        };
+
+        // Menangkap "parameter" dari URL untuk mendeteksi produk mana yang diklik
+        const urlParams = new URLSearchParams(window.location.search);
+        const idProduk = urlParams.get('item'); // Mengambil nilai dari ?item=...
+
+        // Menampilkan detail menggunakan DOM
+        if (idProduk && dataProduk[idProduk]) {
+            // Memasukkan gambar sesuai data di atas
+            document.getElementById('gambar-detail').src = dataProduk[idProduk].gambar;
+            document.getElementById('gambar-detail').alt = dataProduk[idProduk].nama;
+            
+            // Memasukkan teks
+            document.getElementById('kategori-detail').textContent = dataProduk[idProduk].kategori;
+            document.getElementById('judul-detail').textContent = dataProduk[idProduk].nama;
+            document.getElementById('harga-detail').textContent = dataProduk[idProduk].harga;
+            document.getElementById('deskripsi-detail').textContent = dataProduk[idProduk].deskripsi;
+        } else {
+            // Jika produk tidak valid
+            document.getElementById('judul-detail').textContent = "Produk tidak ditemukan";
+            document.getElementById('kategori-detail').style.display = "none";
+            document.getElementById('gambar-detail').style.display = "none";
+        }
+    </script>
+</body>
+</html>
