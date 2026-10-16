@@ -1,5 +1,6 @@
 console.log("JavaScript aktif");
 
+
 // ==========================================
 // TUGAS 2: Fitur Lihat Detail pada Kartu
 // ==========================================
@@ -119,9 +120,14 @@ formPemesanan.addEventListener("submit", function(event) {
         method: "POST",
         body: formData
     })
-    .then(response => response.text())
-    .then(data => {
-        // Hilangkan pesan loading
+    .then(async response => {
+        const data = await response.json().catch(() => null);
+        if (!response.ok || !data || !data.success) {
+            throw new Error((data && data.message) || "Pendaftaran gagal. Silakan coba lagi.");
+        }
+        return data;
+    })
+    .then(() => {
         pesanSimulasi.style.display = "none";
         
         // Memunculkan Pop-up Sukses dari Bootstrap
@@ -135,8 +141,8 @@ formPemesanan.addEventListener("submit", function(event) {
         infoJumlah.textContent = "";
     })
     .catch(error => {
-        // Jika terjadi error saat memanggil PHP
+        pesanSimulasi.style.display = "block";
         pesanSimulasi.className = "alert alert-danger mt-3";
-        pesanSimulasi.textContent = "Terjadi kesalahan koneksi. Silakan coba lagi.";
+        pesanSimulasi.textContent = error.message || "Terjadi kesalahan koneksi. Silakan coba lagi.";
     });
 });
