@@ -47,10 +47,7 @@
       }
       const instanceMap = elementMap.get(element);
 
-      // make it clear we only want one instance per element
-      // can be removed later when multiple key/instances are fine to be used
       if (!instanceMap.has(key) && instanceMap.size !== 0) {
-        // eslint-disable-next-line no-console
         console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
         return;
       }
@@ -69,7 +66,6 @@
       const instanceMap = elementMap.get(element);
       instanceMap.delete(key);
 
-      // free up element references if there are no instances left for an element
       if (instanceMap.size === 0) {
         elementMap.delete(element);
       }
@@ -94,13 +90,11 @@
    */
   const parseSelector = selector => {
     if (selector && window.CSS && window.CSS.escape) {
-      // document.querySelector needs escaping to handle IDs (html5+) containing for instance /
       selector = selector.replace(/#([^\s"#']+)/g, (match, id) => `#${CSS.escape(id)}`);
     }
     return selector;
   };
 
-  // Shout-out Angus Croll (https://goo.gl/pxwQGp)
   const toType = object => {
     if (object === null || object === undefined) {
       return `${object}`;
@@ -123,7 +117,6 @@
       return 0;
     }
 
-    // Get transition-duration of the element
     let {
       transitionDuration,
       transitionDelay
@@ -131,12 +124,10 @@
     const floatTransitionDuration = Number.parseFloat(transitionDuration);
     const floatTransitionDelay = Number.parseFloat(transitionDelay);
 
-    // Return 0 if element or transition duration is not found
     if (!floatTransitionDuration && !floatTransitionDelay) {
       return 0;
     }
 
-    // If multiple durations are defined, take the first
     transitionDuration = transitionDuration.split(',')[0];
     transitionDelay = transitionDelay.split(',')[0];
     return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
@@ -154,7 +145,6 @@
     return typeof object.nodeType !== 'undefined';
   };
   const getElement = object => {
-    // it's a jQuery object or a node element
     if (isElement(object)) {
       return object.jquery ? object[0] : object;
     }
@@ -168,7 +158,6 @@
       return false;
     }
     const elementIsVisible = getComputedStyle(element).getPropertyValue('visibility') === 'visible';
-    // Handle `details` element as its content may falsie appear visible when it is closed
     const closedDetails = element.closest('details:not([open])');
     if (!closedDetails) {
       return elementIsVisible;
@@ -201,7 +190,6 @@
       return null;
     }
 
-    // Can find the shadow root otherwise it'll return the document
     if (typeof element.getRootNode === 'function') {
       const root = element.getRootNode();
       return root instanceof ShadowRoot ? root : null;
@@ -210,7 +198,6 @@
       return element;
     }
 
-    // when we don't find a shadow root
     if (!element.parentNode) {
       return null;
     }
@@ -227,7 +214,7 @@
    * @see https://www.harrytheo.com/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
    */
   const reflow = element => {
-    element.offsetHeight; // eslint-disable-line no-unused-expressions
+    element.offsetHeight;
   };
   const getjQuery = () => {
     if (window.jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
@@ -238,7 +225,6 @@
   const DOMContentLoadedCallbacks = [];
   const onDOMContentLoaded = callback => {
     if (document.readyState === 'loading') {
-      // add listener on the first call when the document is in loading state
       if (!DOMContentLoadedCallbacks.length) {
         document.addEventListener('DOMContentLoaded', () => {
           for (const callback of DOMContentLoadedCallbacks) {
@@ -310,8 +296,6 @@
     const listLength = list.length;
     let index = list.indexOf(activeElement);
 
-    // if the element does not exist in the list return an element
-    // depending on the direction and if cycle is allowed
     if (index === -1) {
       return !shouldGetNext && isCycleAllowed ? list[listLength - 1] : list[0];
     }
@@ -337,7 +321,7 @@
   const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
   const stripNameRegex = /\..*/;
   const stripUidRegex = /::\d+$/;
-  const eventRegistry = {}; // Events storage
+  const eventRegistry = {};
   let uidEvent = 1;
   const customEvents = {
     mouseenter: 'mouseover',
@@ -395,7 +379,6 @@
   }
   function normalizeParameters(originalTypeEvent, handler, delegationFunction) {
     const isDelegated = typeof handler === 'string';
-    // TODO: tooltip passes `false` instead of selector, so we need to check
     const callable = isDelegated ? delegationFunction : handler || delegationFunction;
     let typeEvent = getTypeEvent(originalTypeEvent);
     if (!nativeEvents.has(typeEvent)) {
@@ -409,8 +392,6 @@
     }
     let [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
 
-    // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
-    // this prevents the handler from being dispatched the same way as mouseover or mouseout does
     if (originalTypeEvent in customEvents) {
       const wrapFunction = fn => {
         return function (event) {
@@ -454,7 +435,6 @@
     }
   }
   function getTypeEvent(event) {
-    // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
     event = event.replace(stripNameRegex, '');
     return customEvents[event] || event;
   }
@@ -475,7 +455,6 @@
       const storeElementEvent = events[typeEvent] || {};
       const isNamespace = originalTypeEvent.startsWith('.');
       if (typeof callable !== 'undefined') {
-        // Simplest case: handler is passed, remove that listener ONLY.
         if (!Object.keys(storeElementEvent).length) {
           return;
         }
@@ -614,7 +593,6 @@
    */
 
   class Config {
-    // Getters
     static get Default() {
       return {};
     }
@@ -634,7 +612,7 @@
       return config;
     }
     _mergeConfigObj(config, element) {
-      const jsonConfig = isElement(element) ? Manipulator.getDataAttribute(element, 'config') : {}; // try to parse
+      const jsonConfig = isElement(element) ? Manipulator.getDataAttribute(element, 'config') : {};
 
       return {
         ...this.constructor.Default,
@@ -684,7 +662,6 @@
       Data.set(this._element, this.constructor.DATA_KEY, this);
     }
 
-    // Public
     dispose() {
       Data.remove(this._element, this.constructor.DATA_KEY);
       EventHandler.off(this._element, this.constructor.EVENT_KEY);
@@ -693,7 +670,6 @@
       }
     }
 
-    // Private
     _queueCallback(callback, element, isAnimated = true) {
       executeAfterTransition(callback, element, isAnimated);
     }
@@ -704,7 +680,6 @@
       return config;
     }
 
-    // Static
     static getInstance(element) {
       return Data.get(getElement(element), this.DATA_KEY);
     }
@@ -737,15 +712,10 @@
     if (!selector || selector === '#') {
       let hrefAttribute = element.getAttribute('href');
 
-      // The only valid content that could double as a selector are IDs or classes,
-      // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
-      // `document.querySelector` will rightfully complain it is invalid.
-      // See https://github.com/twbs/bootstrap/issues/32273
       if (!hrefAttribute || !hrefAttribute.includes('#') && !hrefAttribute.startsWith('.')) {
         return null;
       }
 
-      // Just in case some CMS puts out a full URL with the anchor appended
       if (hrefAttribute.includes('#') && !hrefAttribute.startsWith('#')) {
         hrefAttribute = `#${hrefAttribute.split('#')[1]}`;
       }
@@ -782,7 +752,6 @@
       }
       return [];
     },
-    // TODO: this is now unused; remove later along with prev()
     next(element, selector) {
       let next = element.nextElementSibling;
       while (next) {
@@ -834,7 +803,6 @@
       const target = SelectorEngine.getElementFromSelector(this) || this.closest(`.${name}`);
       const instance = component.getOrCreateInstance(target);
 
-      // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
       instance[method]();
     });
   };
@@ -864,12 +832,10 @@
    */
 
   class Alert extends BaseComponent {
-    // Getters
     static get NAME() {
       return NAME$f;
     }
 
-    // Public
     close() {
       const closeEvent = EventHandler.trigger(this._element, EVENT_CLOSE);
       if (closeEvent.defaultPrevented) {
@@ -880,14 +846,12 @@
       this._queueCallback(() => this._destroyElement(), this._element, isAnimated);
     }
 
-    // Private
     _destroyElement() {
       this._element.remove();
       EventHandler.trigger(this._element, EVENT_CLOSED);
       this.dispose();
     }
 
-    // Static
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Alert.getOrCreateInstance(this);
@@ -939,18 +903,14 @@
    */
 
   class Button extends BaseComponent {
-    // Getters
     static get NAME() {
       return NAME$e;
     }
 
-    // Public
     toggle() {
-      // Toggle class and sync the `aria-pressed` attribute with the return value of the `.toggle()` method
       this._element.setAttribute('aria-pressed', this._element.classList.toggle(CLASS_NAME_ACTIVE$3));
     }
 
-    // Static
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Button.getOrCreateInstance(this);
@@ -1029,7 +989,6 @@
       this._initEvents();
     }
 
-    // Getters
     static get Default() {
       return Default$c;
     }
@@ -1040,12 +999,10 @@
       return NAME$d;
     }
 
-    // Public
     dispose() {
       EventHandler.off(this._element, EVENT_KEY$9);
     }
 
-    // Private
     _start(event) {
       if (!this._supportPointerEvents) {
         this._deltaX = event.touches[0].clientX;
@@ -1092,7 +1049,6 @@
       return this._supportPointerEvents && (event.pointerType === POINTER_TYPE_PEN || event.pointerType === POINTER_TYPE_TOUCH);
     }
 
-    // Static
     static isSupported() {
       return 'ontouchstart' in document.documentElement || navigator.maxTouchPoints > 0;
     }
@@ -1116,7 +1072,7 @@
   const DATA_API_KEY$5 = '.data-api';
   const ARROW_LEFT_KEY$1 = 'ArrowLeft';
   const ARROW_RIGHT_KEY$1 = 'ArrowRight';
-  const TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
+  const TOUCHEVENT_COMPAT_WAIT = 500;
 
   const ORDER_NEXT = 'next';
   const ORDER_PREV = 'prev';
@@ -1158,7 +1114,6 @@
   };
   const DefaultType$b = {
     interval: '(number|boolean)',
-    // TODO:v6 remove boolean support
     keyboard: 'boolean',
     pause: '(string|boolean)',
     ride: '(boolean|string)',
@@ -1185,7 +1140,6 @@
       }
     }
 
-    // Getters
     static get Default() {
       return Default$b;
     }
@@ -1196,14 +1150,10 @@
       return NAME$c;
     }
 
-    // Public
     next() {
       this._slide(ORDER_NEXT);
     }
     nextWhenVisible() {
-      // FIXME TODO use `document.visibilityState`
-      // Don't call next when the page isn't visible
-      // or the carousel or its parent isn't visible
       if (!document.hidden && isVisible(this._element)) {
         this.next();
       }
@@ -1255,7 +1205,6 @@
       super.dispose();
     }
 
-    // Private
     _configAfterMerge(config) {
       config.defaultInterval = config.interval;
       return config;
@@ -1281,13 +1230,6 @@
           return;
         }
 
-        // If it's a touch-enabled device, mouseenter/leave are fired as
-        // part of the mouse compatibility events on first tap - the carousel
-        // would stop cycling until user tapped out of it;
-        // here, we listen for touchend, explicitly pause the carousel
-        // (as if it's the second time we tap on it, mouseenter compat event
-        // is NOT fired) and after a timeout (to allow for mouse compatibility
-        // events to fire) we explicitly restart cycling
 
         this.pause();
         if (this.touchTimeout) {
@@ -1360,8 +1302,6 @@
         return;
       }
       if (!activeElement || !nextElement) {
-        // Some weirdness is happening, so we bail
-        // TODO: change tests that use empty divs to avoid this check
         return;
       }
       const isCycling = Boolean(this._interval);
@@ -1415,7 +1355,6 @@
       return order === ORDER_PREV ? DIRECTION_RIGHT : DIRECTION_LEFT;
     }
 
-    // Static
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Carousel.getOrCreateInstance(this, config);
@@ -1537,7 +1476,6 @@
       }
     }
 
-    // Getters
     static get Default() {
       return Default$a;
     }
@@ -1548,7 +1486,6 @@
       return NAME$b;
     }
 
-    // Public
     toggle() {
       if (this._isShown()) {
         this.hide();
@@ -1562,7 +1499,6 @@
       }
       let activeChildren = [];
 
-      // find active children
       if (this._config.parent) {
         activeChildren = this._getFirstLevelChildren(SELECTOR_ACTIVES).filter(element => element !== this._element).map(element => Collapse.getOrCreateInstance(element, {
           toggle: false
@@ -1626,12 +1562,11 @@
       this._queueCallback(complete, this._element, true);
     }
 
-    // Private
     _isShown(element = this._element) {
       return element.classList.contains(CLASS_NAME_SHOW$7);
     }
     _configAfterMerge(config) {
-      config.toggle = Boolean(config.toggle); // Coerce string values
+      config.toggle = Boolean(config.toggle);
       config.parent = getElement(config.parent);
       return config;
     }
@@ -1652,7 +1587,6 @@
     }
     _getFirstLevelChildren(selector) {
       const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
-      // remove children if greater depth
       return SelectorEngine.find(selector, this._config.parent).filter(element => !children.includes(element));
     }
     _addAriaAndCollapsedClass(triggerArray, isOpen) {
@@ -1665,7 +1599,6 @@
       }
     }
 
-    // Static
     static jQueryInterface(config) {
       const _config = {};
       if (typeof config === 'string' && /show|hide/.test(config)) {
@@ -1688,7 +1621,6 @@
    */
 
   EventHandler.on(document, EVENT_CLICK_DATA_API$4, SELECTOR_DATA_TOGGLE$4, function (event) {
-    // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
     if (event.target.tagName === 'A' || event.delegateTarget && event.delegateTarget.tagName === 'A') {
       event.preventDefault();
     }
@@ -1725,7 +1657,7 @@
   const TAB_KEY$1 = 'Tab';
   const ARROW_UP_KEY$1 = 'ArrowUp';
   const ARROW_DOWN_KEY$1 = 'ArrowDown';
-  const RIGHT_MOUSE_BUTTON = 2; // MouseEvent.button value for the secondary button, usually the right button
+  const RIGHT_MOUSE_BUTTON = 2;
 
   const EVENT_HIDE$5 = `hide${EVENT_KEY$6}`;
   const EVENT_HIDDEN$5 = `hidden${EVENT_KEY$6}`;
@@ -1779,13 +1711,11 @@
     constructor(element, config) {
       super(element, config);
       this._popper = null;
-      this._parent = this._element.parentNode; // dropdown wrapper
-      // TODO: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.3/forms/input-group/
+      this._parent = this._element.parentNode;
       this._menu = SelectorEngine.next(this._element, SELECTOR_MENU)[0] || SelectorEngine.prev(this._element, SELECTOR_MENU)[0] || SelectorEngine.findOne(SELECTOR_MENU, this._parent);
       this._inNavbar = this._detectNavbar();
     }
 
-    // Getters
     static get Default() {
       return Default$9;
     }
@@ -1796,7 +1726,6 @@
       return NAME$a;
     }
 
-    // Public
     toggle() {
       return this._isShown() ? this.hide() : this.show();
     }
@@ -1813,10 +1742,6 @@
       }
       this._createPopper();
 
-      // If this is a touch-enabled device we add extra
-      // empty mouseover listeners to the body's immediate children;
-      // only needed because of broken event delegation on iOS
-      // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
       if ('ontouchstart' in document.documentElement && !this._parent.closest(SELECTOR_NAVBAR_NAV)) {
         for (const element of [].concat(...document.body.children)) {
           EventHandler.on(element, 'mouseover', noop);
@@ -1850,15 +1775,12 @@
       }
     }
 
-    // Private
     _completeHide(relatedTarget) {
       const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$5, relatedTarget);
       if (hideEvent.defaultPrevented) {
         return;
       }
 
-      // If this is a touch-enabled device we remove the extra
-      // empty mouseover listeners we added for iOS support
       if ('ontouchstart' in document.documentElement) {
         for (const element of [].concat(...document.body.children)) {
           EventHandler.off(element, 'mouseover', noop);
@@ -1876,7 +1798,6 @@
     _getConfig(config) {
       config = super._getConfig(config);
       if (typeof config.reference === 'object' && !isElement(config.reference) && typeof config.reference.getBoundingClientRect !== 'function') {
-        // Popper virtual elements require a getBoundingClientRect method
         throw new TypeError(`${NAME$a.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`);
       }
       return config;
@@ -1914,7 +1835,6 @@
         return PLACEMENT_BOTTOMCENTER;
       }
 
-      // We need to trim the value because custom properties can also include spaces
       const isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-position').trim() === 'end';
       if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
         return isEnd ? PLACEMENT_TOPEND : PLACEMENT_TOP;
@@ -1952,9 +1872,8 @@
         }]
       };
 
-      // Disable Popper if we have a static display or Dropdown is in Navbar
       if (this._inNavbar || this._config.display === 'static') {
-        Manipulator.setDataAttribute(this._menu, 'popper', 'static'); // TODO: v6 remove
+        Manipulator.setDataAttribute(this._menu, 'popper', 'static');
         defaultBsPopperConfig.modifiers = [{
           name: 'applyStyles',
           enabled: false
@@ -1974,12 +1893,9 @@
         return;
       }
 
-      // if target isn't included in items (e.g. when expanding the dropdown)
-      // allow cycling to get the last item in case key equals ARROW_UP_KEY
       getNextActiveElement(items, target, key === ARROW_DOWN_KEY$1, !items.includes(target)).focus();
     }
 
-    // Static
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Dropdown.getOrCreateInstance(this, config);
@@ -2008,7 +1924,6 @@
           continue;
         }
 
-        // Tab navigation through the dropdown menu or events from contained inputs shouldn't close the menu
         if (context._menu.contains(event.target) && (event.type === 'keyup' && event.key === TAB_KEY$1 || /input|select|option|textarea|form/i.test(event.target.tagName))) {
           continue;
         }
@@ -2022,8 +1937,6 @@
       }
     }
     static dataApiKeydownHandler(event) {
-      // If not an UP | DOWN | ESCAPE key => not a dropdown command
-      // If input/textarea && if key is other than ESCAPE => not a dropdown command
 
       const isInput = /input|textarea/i.test(event.target.tagName);
       const isEscapeEvent = event.key === ESCAPE_KEY$2;
@@ -2036,7 +1949,6 @@
       }
       event.preventDefault();
 
-      // TODO: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.3/forms/input-group/
       const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE$3) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$3)[0] || SelectorEngine.next(this, SELECTOR_DATA_TOGGLE$3)[0] || SelectorEngine.findOne(SELECTOR_DATA_TOGGLE$3, event.delegateTarget.parentNode);
       const instance = Dropdown.getOrCreateInstance(getToggleButton);
       if (isUpOrDownEvent) {
@@ -2046,7 +1958,6 @@
         return;
       }
       if (instance._isShown()) {
-        // else is escape and we check if it is shown
         event.stopPropagation();
         instance.hide();
         getToggleButton.focus();
@@ -2094,8 +2005,7 @@
     clickCallback: null,
     isAnimated: false,
     isVisible: true,
-    // if false, we use the backdrop helper without adding any element to the dom
-    rootElement: 'body' // give the choice to place backdrop under different elements
+    rootElement: 'body'
   };
   const DefaultType$8 = {
     className: 'string',
@@ -2117,7 +2027,6 @@
       this._element = null;
     }
 
-    // Getters
     static get Default() {
       return Default$8;
     }
@@ -2128,7 +2037,6 @@
       return NAME$9;
     }
 
-    // Public
     show(callback) {
       if (!this._config.isVisible) {
         execute(callback);
@@ -2164,7 +2072,6 @@
       this._isAppended = false;
     }
 
-    // Private
     _getElement() {
       if (!this._element) {
         const backdrop = document.createElement('div');
@@ -2177,7 +2084,6 @@
       return this._element;
     }
     _configAfterMerge(config) {
-      // use getElement() with the default "body" to get a fresh Element on each instantiation
       config.rootElement = getElement(config.rootElement);
       return config;
     }
@@ -2219,7 +2125,7 @@
   const TAB_NAV_BACKWARD = 'backward';
   const Default$7 = {
     autofocus: true,
-    trapElement: null // The element to trap focus inside of
+    trapElement: null
   };
   const DefaultType$7 = {
     autofocus: 'boolean',
@@ -2238,7 +2144,6 @@
       this._lastTabNavDirection = null;
     }
 
-    // Getters
     static get Default() {
       return Default$7;
     }
@@ -2249,7 +2154,6 @@
       return NAME$8;
     }
 
-    // Public
     activate() {
       if (this._isActive) {
         return;
@@ -2257,7 +2161,7 @@
       if (this._config.autofocus) {
         this._config.trapElement.focus();
       }
-      EventHandler.off(document, EVENT_KEY$5); // guard against infinite focus loop
+      EventHandler.off(document, EVENT_KEY$5);
       EventHandler.on(document, EVENT_FOCUSIN$2, event => this._handleFocusin(event));
       EventHandler.on(document, EVENT_KEYDOWN_TAB, event => this._handleKeydown(event));
       this._isActive = true;
@@ -2270,7 +2174,6 @@
       EventHandler.off(document, EVENT_KEY$5);
     }
 
-    // Private
     _handleFocusin(event) {
       const {
         trapElement
@@ -2321,18 +2224,14 @@
       this._element = document.body;
     }
 
-    // Public
     getWidth() {
-      // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
       const documentWidth = document.documentElement.clientWidth;
       return Math.abs(window.innerWidth - documentWidth);
     }
     hide() {
       const width = this.getWidth();
       this._disableOverFlow();
-      // give padding to element to balance the hidden scrollbar width
       this._setElementAttributes(this._element, PROPERTY_PADDING, calculatedValue => calculatedValue + width);
-      // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
       this._setElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING, calculatedValue => calculatedValue + width);
       this._setElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN, calculatedValue => calculatedValue - width);
     }
@@ -2346,7 +2245,6 @@
       return this.getWidth() > 0;
     }
 
-    // Private
     _disableOverFlow() {
       this._saveInitialAttribute(this._element, 'overflow');
       this._element.style.overflow = 'hidden';
@@ -2372,7 +2270,6 @@
     _resetElementAttributes(selector, styleProperty) {
       const manipulationCallBack = element => {
         const value = Manipulator.getDataAttribute(element, styleProperty);
-        // We only want to remove the property if the value is `null`; the value can also be zero
         if (value === null) {
           element.style.removeProperty(styleProperty);
           return;
@@ -2455,7 +2352,6 @@
       this._addEventListeners();
     }
 
-    // Getters
     static get Default() {
       return Default$6;
     }
@@ -2466,7 +2362,6 @@
       return NAME$7;
     }
 
-    // Public
     toggle(relatedTarget) {
       return this._isShown ? this.hide() : this.show(relatedTarget);
     }
@@ -2512,11 +2407,9 @@
       this._adjustDialog();
     }
 
-    // Private
     _initializeBackDrop() {
       return new Backdrop({
         isVisible: Boolean(this._config.backdrop),
-        // 'static' option will be translated to true, and booleans will keep their value,
         isAnimated: this._isAnimated()
       });
     }
@@ -2526,7 +2419,6 @@
       });
     }
     _showElement(relatedTarget) {
-      // try to append dynamic modal
       if (!document.body.contains(this._element)) {
         document.body.append(this._element);
       }
@@ -2569,7 +2461,6 @@
         }
       });
       EventHandler.on(this._element, EVENT_MOUSEDOWN_DISMISS, event => {
-        // a bad trick to segregate clicks that may start inside dialog but end outside, and avoid listen to scrollbar clicks
         EventHandler.one(this._element, EVENT_CLICK_DISMISS, event2 => {
           if (this._element !== event.target || this._element !== event2.target) {
             return;
@@ -2607,7 +2498,6 @@
       }
       const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
       const initialOverflowY = this._element.style.overflowY;
-      // return if the following background transition hasn't yet completed
       if (initialOverflowY === 'hidden' || this._element.classList.contains(CLASS_NAME_STATIC)) {
         return;
       }
@@ -2646,7 +2536,6 @@
       this._element.style.paddingRight = '';
     }
 
-    // Static
     static jQueryInterface(config, relatedTarget) {
       return this.each(function () {
         const data = Modal.getOrCreateInstance(this, config);
@@ -2672,7 +2561,6 @@
     }
     EventHandler.one(target, EVENT_SHOW$4, showEvent => {
       if (showEvent.defaultPrevented) {
-        // only register focus restorer if modal will actually get shown
         return;
       }
       EventHandler.one(target, EVENT_HIDDEN$4, () => {
@@ -2682,7 +2570,6 @@
       });
     });
 
-    // avoid conflict when clicking modal toggler while another one is open
     const alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR$1);
     if (alreadyOpen) {
       Modal.getInstance(alreadyOpen).hide();
@@ -2754,7 +2641,6 @@
       this._addEventListeners();
     }
 
-    // Getters
     static get Default() {
       return Default$5;
     }
@@ -2765,7 +2651,6 @@
       return NAME$6;
     }
 
-    // Public
     toggle(relatedTarget) {
       return this._isShown ? this.hide() : this.show(relatedTarget);
     }
@@ -2829,7 +2714,6 @@
       super.dispose();
     }
 
-    // Private
     _initializeBackDrop() {
       const clickCallback = () => {
         if (this._config.backdrop === 'static') {
@@ -2839,7 +2723,6 @@
         this.hide();
       };
 
-      // 'static' option will be translated to true, and booleans will keep their value
       const isVisible = Boolean(this._config.backdrop);
       return new Backdrop({
         className: CLASS_NAME_BACKDROP,
@@ -2867,7 +2750,6 @@
       });
     }
 
-    // Static
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Offcanvas.getOrCreateInstance(this, config);
@@ -2895,13 +2777,11 @@
       return;
     }
     EventHandler.one(target, EVENT_HIDDEN$3, () => {
-      // focus on trigger when it is closed
       if (isVisible(this)) {
         this.focus();
       }
     });
 
-    // avoid conflict when clicking a toggler of an offcanvas, while another is open
     const alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
     if (alreadyOpen && alreadyOpen !== target) {
       Offcanvas.getInstance(alreadyOpen).hide();
@@ -2936,10 +2816,8 @@
    * --------------------------------------------------------------------------
    */
 
-  // js-docs-start allow-list
   const ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
   const DefaultAllowlist = {
-    // Global attributes allowed on any supplied element below.
     '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN],
     a: ['target', 'href', 'title', 'rel'],
     area: [],
@@ -2974,7 +2852,6 @@
     u: [],
     ul: []
   };
-  // js-docs-end allow-list
 
   const uriAttributes = new Set(['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
 
@@ -2994,7 +2871,6 @@
       return true;
     }
 
-    // Check if a regular expression validates the attribute.
     return allowedAttributeList.filter(attributeRegex => attributeRegex instanceof RegExp).some(regex => regex.test(attributeName));
   };
   function sanitizeHtml(unsafeHtml, allowList, sanitizeFunction) {
@@ -3040,7 +2916,6 @@
   const Default$4 = {
     allowList: DefaultAllowlist,
     content: {},
-    // { selector : text ,  selector2 : text2 , }
     extraClass: '',
     html: false,
     sanitize: true,
@@ -3071,7 +2946,6 @@
       this._config = this._getConfig(config);
     }
 
-    // Getters
     static get Default() {
       return Default$4;
     }
@@ -3082,7 +2956,6 @@
       return NAME$5;
     }
 
-    // Public
     getContent() {
       return Object.values(this._config.content).map(config => this._resolvePossibleFunction(config)).filter(Boolean);
     }
@@ -3111,7 +2984,6 @@
       return template;
     }
 
-    // Private
     _typeCheckConfig(config) {
       super._typeCheckConfig(config);
       this._checkContent(config.content);
@@ -3251,7 +3123,6 @@
       }
       super(element, config);
 
-      // Private
       this._isEnabled = true;
       this._timeout = 0;
       this._isHovered = null;
@@ -3260,7 +3131,6 @@
       this._templateFactory = null;
       this._newContent = null;
 
-      // Protected
       this.tip = null;
       this._setListeners();
       if (!this._config.selector) {
@@ -3268,7 +3138,6 @@
       }
     }
 
-    // Getters
     static get Default() {
       return Default$3;
     }
@@ -3279,7 +3148,6 @@
       return NAME$4;
     }
 
-    // Public
     enable() {
       this._isEnabled = true;
     }
@@ -3322,7 +3190,6 @@
         return;
       }
 
-      // TODO: v6 remove this or make it optional
       this._disposePopper();
       const tip = this._getTipElement();
       this._element.setAttribute('aria-describedby', tip.getAttribute('id'));
@@ -3336,10 +3203,6 @@
       this._popper = this._createPopper(tip);
       tip.classList.add(CLASS_NAME_SHOW$2);
 
-      // If this is a touch-enabled device we add extra
-      // empty mouseover listeners to the body's immediate children;
-      // only needed because of broken event delegation on iOS
-      // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
       if ('ontouchstart' in document.documentElement) {
         for (const element of [].concat(...document.body.children)) {
           EventHandler.on(element, 'mouseover', noop);
@@ -3365,8 +3228,6 @@
       const tip = this._getTipElement();
       tip.classList.remove(CLASS_NAME_SHOW$2);
 
-      // If this is a touch-enabled device we remove the extra
-      // empty mouseover listeners we added for iOS support
       if ('ontouchstart' in document.documentElement) {
         for (const element of [].concat(...document.body.children)) {
           EventHandler.off(element, 'mouseover', noop);
@@ -3375,7 +3236,7 @@
       this._activeTrigger[TRIGGER_CLICK] = false;
       this._activeTrigger[TRIGGER_FOCUS] = false;
       this._activeTrigger[TRIGGER_HOVER] = false;
-      this._isHovered = null; // it is a trick to support manual triggering
+      this._isHovered = null;
 
       const complete = () => {
         if (this._isWithActiveTrigger()) {
@@ -3395,7 +3256,6 @@
       }
     }
 
-    // Protected
     _isWithContent() {
       return Boolean(this._getTitle());
     }
@@ -3408,12 +3268,10 @@
     _createTipElement(content) {
       const tip = this._getTemplateFactory(content).toHtml();
 
-      // TODO: remove this check in v6
       if (!tip) {
         return null;
       }
       tip.classList.remove(CLASS_NAME_FADE$2, CLASS_NAME_SHOW$2);
-      // TODO: v6 the following can be achieved with CSS only
       tip.classList.add(`bs-${this.constructor.NAME}-auto`);
       const tipId = getUID(this.constructor.NAME).toString();
       tip.setAttribute('id', tipId);
@@ -3435,8 +3293,6 @@
       } else {
         this._templateFactory = new TemplateFactory({
           ...this._config,
-          // the `content` var has to be after `this._config`
-          // to override config.content in case of popover
           content,
           extraClass: this._resolvePossibleFunction(this._config.customClass)
         });
@@ -3452,7 +3308,6 @@
       return this._resolvePossibleFunction(this._config.title) || this._element.getAttribute('data-bs-original-title');
     }
 
-    // Private
     _initializeOnDelegatedTarget(event) {
       return this.constructor.getOrCreateInstance(event.delegateTarget, this._getDelegateConfig());
     }
@@ -3510,8 +3365,6 @@
           enabled: true,
           phase: 'beforeMain',
           fn: data => {
-            // Pre-set Popper's placement attribute in order to read the arrow sizes properly.
-            // Otherwise, Popper mixes up the width and height dimensions since the initial arrow style is for top placement
             this._getTipElement().setAttribute('data-popper-placement', data.state.placement);
           }
         }]
@@ -3560,7 +3413,7 @@
       if (!this._element.getAttribute('aria-label') && !this._element.textContent.trim()) {
         this._element.setAttribute('aria-label', title);
       }
-      this._element.setAttribute('data-bs-original-title', title); // DO NOT USE IT. Is only for backwards compatibility
+      this._element.setAttribute('data-bs-original-title', title);
       this._element.removeAttribute('title');
     }
     _enter() {
@@ -3635,9 +3488,6 @@
       config.selector = false;
       config.trigger = 'manual';
 
-      // In the future can be replaced with:
-      // const keysWithDifferentValues = Object.entries(this._config).filter(entry => this.constructor.Default[entry[0]] !== this._config[entry[0]])
-      // `Object.fromEntries(keysWithDifferentValues)`
       return config;
     }
     _disposePopper() {
@@ -3651,7 +3501,6 @@
       }
     }
 
-    // Static
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Tooltip.getOrCreateInstance(this, config);
@@ -3705,7 +3554,6 @@
    */
 
   class Popover extends Tooltip {
-    // Getters
     static get Default() {
       return Default$2;
     }
@@ -3716,12 +3564,10 @@
       return NAME$3;
     }
 
-    // Overrides
     _isWithContent() {
       return this._getTitle() || this._getContent();
     }
 
-    // Private
     _getContentForTemplate() {
       return {
         [SELECTOR_TITLE]: this._getTitle(),
@@ -3732,7 +3578,6 @@
       return this._resolvePossibleFunction(this._config.content);
     }
 
-    // Static
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Popover.getOrCreateInstance(this, config);
@@ -3785,7 +3630,6 @@
   const SELECTOR_DROPDOWN_TOGGLE$1 = '.dropdown-toggle';
   const Default$1 = {
     offset: null,
-    // TODO: v6 @deprecated, keep it for backwards compatibility reasons
     rootMargin: '0px 0px -25%',
     smoothScroll: false,
     target: null,
@@ -3793,7 +3637,6 @@
   };
   const DefaultType$1 = {
     offset: '(number|null)',
-    // TODO v6 @deprecated, keep it for backwards compatibility reasons
     rootMargin: 'string',
     smoothScroll: 'boolean',
     target: 'element',
@@ -3808,7 +3651,6 @@
     constructor(element, config) {
       super(element, config);
 
-      // this._element is the observablesContainer and config.target the menu links wrapper
       this._targetLinks = new Map();
       this._observableSections = new Map();
       this._rootElement = getComputedStyle(this._element).overflowY === 'visible' ? null : this._element;
@@ -3818,10 +3660,9 @@
         visibleEntryTop: 0,
         parentScrollTop: 0
       };
-      this.refresh(); // initialize
+      this.refresh();
     }
 
-    // Getters
     static get Default() {
       return Default$1;
     }
@@ -3832,7 +3673,6 @@
       return NAME$2;
     }
 
-    // Public
     refresh() {
       this._initializeTargetsAndObservables();
       this._maybeEnableSmoothScroll();
@@ -3850,12 +3690,9 @@
       super.dispose();
     }
 
-    // Private
     _configAfterMerge(config) {
-      // TODO: on v6 target should be given explicitly & remove the {target: 'ss-target'} case
       config.target = getElement(config.target) || document.body;
 
-      // TODO: v6 Only for backwards compatibility reasons. Use rootMargin only
       config.rootMargin = config.offset ? `${config.offset}px 0px -30%` : config.rootMargin;
       if (typeof config.threshold === 'string') {
         config.threshold = config.threshold.split(',').map(value => Number.parseFloat(value));
@@ -3867,7 +3704,6 @@
         return;
       }
 
-      // unregister any previous listeners
       EventHandler.off(this._config.target, EVENT_CLICK);
       EventHandler.on(this._config.target, EVENT_CLICK, SELECTOR_TARGET_LINKS, event => {
         const observableSection = this._observableSections.get(event.target.hash);
@@ -3883,7 +3719,6 @@
             return;
           }
 
-          // Chrome 60 doesn't support `scrollTo`
           root.scrollTop = height;
         }
       });
@@ -3897,7 +3732,6 @@
       return new IntersectionObserver(entries => this._observerCallback(entries), options);
     }
 
-    // The logic of selection
     _observerCallback(entries) {
       const targetElement = entry => this._targetLinks.get(`#${entry.target.id}`);
       const activate = entry => {
@@ -3914,17 +3748,14 @@
           continue;
         }
         const entryIsLowerThanPrevious = entry.target.offsetTop >= this._previousScrollData.visibleEntryTop;
-        // if we are scrolling down, pick the bigger offsetTop
         if (userScrollsDown && entryIsLowerThanPrevious) {
           activate(entry);
-          // if parent isn't scrolled, let's keep the first visible item, breaking the iteration
           if (!parentScrollTop) {
             return;
           }
           continue;
         }
 
-        // if we are scrolling up, pick the smallest offsetTop
         if (!userScrollsDown && !entryIsLowerThanPrevious) {
           activate(entry);
         }
@@ -3935,13 +3766,11 @@
       this._observableSections = new Map();
       const targetLinks = SelectorEngine.find(SELECTOR_TARGET_LINKS, this._config.target);
       for (const anchor of targetLinks) {
-        // ensure that the anchor has an id and is not disabled
         if (!anchor.hash || isDisabled(anchor)) {
           continue;
         }
         const observableSection = SelectorEngine.findOne(decodeURI(anchor.hash), this._element);
 
-        // ensure that the observableSection exists & is visible
         if (isVisible(observableSection)) {
           this._targetLinks.set(decodeURI(anchor.hash), anchor);
           this._observableSections.set(anchor.hash, observableSection);
@@ -3961,14 +3790,11 @@
       });
     }
     _activateParents(target) {
-      // Activate dropdown parents
       if (target.classList.contains(CLASS_NAME_DROPDOWN_ITEM)) {
         SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE$1, target.closest(SELECTOR_DROPDOWN)).classList.add(CLASS_NAME_ACTIVE$1);
         return;
       }
       for (const listGroup of SelectorEngine.parents(target, SELECTOR_NAV_LIST_GROUP)) {
-        // Set triggered links parents as active
-        // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
         for (const item of SelectorEngine.prev(listGroup, SELECTOR_LINK_ITEMS)) {
           item.classList.add(CLASS_NAME_ACTIVE$1);
         }
@@ -3982,7 +3808,6 @@
       }
     }
 
-    // Static
     static jQueryInterface(config) {
       return this.each(function () {
         const data = ScrollSpy.getOrCreateInstance(this, config);
@@ -4051,7 +3876,7 @@
   const SELECTOR_TAB_PANEL = '.list-group, .nav, [role="tablist"]';
   const SELECTOR_OUTER = '.nav-item, .list-group-item';
   const SELECTOR_INNER = `.nav-link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list-group-item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role="tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
-  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]'; // TODO: could only be `tab` in v6
+  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
   const SELECTOR_INNER_ELEM = `${SELECTOR_INNER}, ${SELECTOR_DATA_TOGGLE}`;
   const SELECTOR_DATA_TOGGLE_ACTIVE = `.${CLASS_NAME_ACTIVE}[data-bs-toggle="tab"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="pill"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="list"]`;
 
@@ -4065,29 +3890,22 @@
       this._parent = this._element.closest(SELECTOR_TAB_PANEL);
       if (!this._parent) {
         return;
-        // TODO: should throw exception in v6
-        // throw new TypeError(`${element.outerHTML} has not a valid parent ${SELECTOR_INNER_ELEM}`)
       }
 
-      // Set up initial aria attributes
       this._setInitialAttributes(this._parent, this._getChildren());
       EventHandler.on(this._element, EVENT_KEYDOWN, event => this._keydown(event));
     }
 
-    // Getters
     static get NAME() {
       return NAME$1;
     }
 
-    // Public
     show() {
-      // Shows this elem and deactivate the active sibling if exists
       const innerElem = this._element;
       if (this._elemIsActive(innerElem)) {
         return;
       }
 
-      // Search for active tab on same parent to deactivate it
       const active = this._getActiveElem();
       const hideEvent = active ? EventHandler.trigger(active, EVENT_HIDE$1, {
         relatedTarget: innerElem
@@ -4102,13 +3920,12 @@
       this._activate(innerElem, active);
     }
 
-    // Private
     _activate(element, relatedElem) {
       if (!element) {
         return;
       }
       element.classList.add(CLASS_NAME_ACTIVE);
-      this._activate(SelectorEngine.getElementFromSelector(element)); // Search and activate/show the proper section
+      this._activate(SelectorEngine.getElementFromSelector(element));
 
       const complete = () => {
         if (element.getAttribute('role') !== 'tab') {
@@ -4130,7 +3947,7 @@
       }
       element.classList.remove(CLASS_NAME_ACTIVE);
       element.blur();
-      this._deactivate(SelectorEngine.getElementFromSelector(element)); // Search and deactivate the shown section too
+      this._deactivate(SelectorEngine.getElementFromSelector(element));
 
       const complete = () => {
         if (element.getAttribute('role') !== 'tab') {
@@ -4150,7 +3967,7 @@
       if (![ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY, HOME_KEY, END_KEY].includes(event.key)) {
         return;
       }
-      event.stopPropagation(); // stopPropagation/preventDefault both added to support up/down keys without scrolling the page
+      event.stopPropagation();
       event.preventDefault();
       const children = this._getChildren().filter(element => !isDisabled(element));
       let nextActiveElement;
@@ -4168,7 +3985,6 @@
       }
     }
     _getChildren() {
-      // collection of inner elements
       return SelectorEngine.find(SELECTOR_INNER_ELEM, this._parent);
     }
     _getActiveElem() {
@@ -4193,7 +4009,6 @@
       }
       this._setAttributeIfNotExists(child, 'role', 'tab');
 
-      // set attributes to the related panel too
       this._setInitialAttributesOnTargetPanel(child);
     }
     _setInitialAttributesOnTargetPanel(child) {
@@ -4230,17 +4045,14 @@
       return elem.classList.contains(CLASS_NAME_ACTIVE);
     }
 
-    // Try to get the inner element (usually the .nav-link)
     _getInnerElement(elem) {
       return elem.matches(SELECTOR_INNER_ELEM) ? elem : SelectorEngine.findOne(SELECTOR_INNER_ELEM, elem);
     }
 
-    // Try to get the outer element (usually the .nav-item)
     _getOuterElement(elem) {
       return elem.closest(SELECTOR_OUTER) || elem;
     }
 
-    // Static
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Tab.getOrCreateInstance(this);
@@ -4307,7 +4119,7 @@
   const EVENT_SHOW = `show${EVENT_KEY}`;
   const EVENT_SHOWN = `shown${EVENT_KEY}`;
   const CLASS_NAME_FADE = 'fade';
-  const CLASS_NAME_HIDE = 'hide'; // @deprecated - kept here only for backwards compatibility
+  const CLASS_NAME_HIDE = 'hide';
   const CLASS_NAME_SHOW = 'show';
   const CLASS_NAME_SHOWING = 'showing';
   const DefaultType = {
@@ -4334,7 +4146,6 @@
       this._setListeners();
     }
 
-    // Getters
     static get Default() {
       return Default;
     }
@@ -4345,7 +4156,6 @@
       return NAME;
     }
 
-    // Public
     show() {
       const showEvent = EventHandler.trigger(this._element, EVENT_SHOW);
       if (showEvent.defaultPrevented) {
@@ -4360,7 +4170,7 @@
         EventHandler.trigger(this._element, EVENT_SHOWN);
         this._maybeScheduleHide();
       };
-      this._element.classList.remove(CLASS_NAME_HIDE); // @deprecated
+      this._element.classList.remove(CLASS_NAME_HIDE);
       reflow(this._element);
       this._element.classList.add(CLASS_NAME_SHOW, CLASS_NAME_SHOWING);
       this._queueCallback(complete, this._element, this._config.animation);
@@ -4374,7 +4184,7 @@
         return;
       }
       const complete = () => {
-        this._element.classList.add(CLASS_NAME_HIDE); // @deprecated
+        this._element.classList.add(CLASS_NAME_HIDE);
         this._element.classList.remove(CLASS_NAME_SHOWING, CLASS_NAME_SHOW);
         EventHandler.trigger(this._element, EVENT_HIDDEN);
       };
@@ -4392,7 +4202,6 @@
       return this._element.classList.contains(CLASS_NAME_SHOW);
     }
 
-    // Private
     _maybeScheduleHide() {
       if (!this._config.autohide) {
         return;
@@ -4440,7 +4249,6 @@
       this._timeout = null;
     }
 
-    // Static
     static jQueryInterface(config) {
       return this.each(function () {
         const data = Toast.getOrCreateInstance(this, config);
@@ -4491,4 +4299,3 @@
   return index_umd;
 
 }));
-//# sourceMappingURL=bootstrap.js.map

@@ -15,7 +15,6 @@ if (
     exit();
 }
 
-// Jika admin sudah login sebelumnya, langsung arahkan ke halaman data
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
     header("Location: data_pendaftar.php");
     exit();

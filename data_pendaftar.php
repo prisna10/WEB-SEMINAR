@@ -15,14 +15,10 @@ if (
     exit();
 }
 
-// -----------------------------------------------------
-// KUNCI HALAMAN: Cek apakah admin sudah login
-// -----------------------------------------------------
 if (
     !isset($_SESSION['admin_logged_in'], $_SESSION['session_expires_at'])
     || $_SESSION['admin_logged_in'] !== true
 ) {
-    // Jika belum login, tendang kembali ke halaman login
     header("Location: login.php");
     exit();
 }
@@ -37,18 +33,12 @@ function redirectWithUpdateNotification(string $message, string $type): void
     exit();
 }
 
-// Menghubungkan ke database
 include 'koneksi.php';
 
-// ... (sisa kode di bawahnya biarkan tetap sama) ...
-// Menghubungkan ke database
 include 'koneksi.php';
 $update_notification = $_SESSION['update_notification'] ?? null;
 unset($_SESSION['update_notification']);
 
-// -----------------------------------------------------
-// 1. FITUR HAPUS DATA (SATUAN)
-// -----------------------------------------------------
 if(isset($_GET['hapus'])) {
     $waktu_hapus = $_GET['hapus'];
     $stmt = $conn->prepare("DELETE FROM pendaftaran WHERE waktu_daftar = ?");
@@ -63,23 +53,16 @@ if(isset($_GET['hapus'])) {
     $stmt->close();
 }
 
-// -----------------------------------------------------
-// 2. FITUR HAPUS DATA MASSAL (BANYAK SEKALIGUS)
-// -----------------------------------------------------
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['btn_hapus_massal'])) {
     if (!empty($_POST['hapus_pilih'])) {
-        $data_terpilih = $_POST['hapus_pilih']; // Array dari checkbox
+        $data_terpilih = $_POST['hapus_pilih'];
         
-        // Membuat string parameter "?, ?, ?" sesuai jumlah data yang dipilih
         $placeholders = implode(',', array_fill(0, count($data_terpilih), '?'));
         
-        // Mempersiapkan statement delete
         $stmt = $conn->prepare("DELETE FROM pendaftaran WHERE waktu_daftar IN ($placeholders)");
         
-        // Menentukan tipe data string ("s") sesuai jumlah data
         $types = str_repeat('s', count($data_terpilih));
         
-        // Binding parameter dinamis
         $stmt->bind_param($types, ...$data_terpilih);
         
         if ($stmt->execute()) {
@@ -93,9 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['btn_hapus_massal'])) {
     }
 }
 
-// -----------------------------------------------------
-// 3. FITUR TAMBAH PENDAFTAR
-// -----------------------------------------------------
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['btn_tambah'])) {
     require 'inventory.php';
 
@@ -179,9 +159,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['btn_tambah'])) {
     redirectWithUpdateNotification('Pendaftar gagal ditambahkan. Silakan coba lagi.', 'danger');
 }
 
-// -----------------------------------------------------
-// 4. FITUR EDIT (UPDATE) DATA
-// -----------------------------------------------------
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['btn_update'])) {
     require 'inventory.php';
 
@@ -290,7 +267,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['btn_update'])) {
     }
 }
 
-// Mapping data layanan untuk menampilkan jenis tiket dengan nama yang lebih jelas
 $jenis_tiket_map = [
     "50000" => "Tiket Reguler",
     "100000" => "Tiket VIP",
@@ -300,7 +276,6 @@ $jenis_tiket_map = [
     "30000" => "Cetak Sertifikat & Pigura",
 ];
 
-// Mengambil semua data dari tabel pendaftaran
 $sql = "SELECT * FROM pendaftaran ORDER BY waktu_daftar DESC";
 $result = $conn->query($sql);
 ?>
@@ -372,7 +347,6 @@ $result = $conn->query($sql);
                                         
                                         echo "<tr>";
                                         
-                                        // Checkbox Satuan per baris (TANDA KUTIP SUDAH DIPERBAIKI DI SINI)
                                         echo "<td class='px-3 text-center'>
                                                 <input class='form-check-input checkItem shadow-sm' type='checkbox' name='hapus_pilih[]' value='" . htmlspecialchars($waktu_asli) . "'>
                                               </td>";
@@ -396,12 +370,10 @@ $result = $conn->query($sql);
                                         
                                         echo "<td class='text-center'>";
                                         
-                                        // Tombol Edit
                                         echo "<button type='button' class='btn btn-warning btn-sm rounded-pill px-3 shadow-sm me-1 fw-bold' 
                                               onclick=\"bukaModalEdit('" . addslashes($row['nama']) . "', '" . addslashes($row['email']) . "', '" . addslashes($row['layanan']) . "', '" . addslashes($row['jumlah']) . "', '" . addslashes($row['pesan']) . "', '" . urlencode($waktu_asli) . "')\">
                                               <i class='fas fa-edit'></i> Edit</button>";
                                               
-                                        // Tombol Hapus Satuan
                                         echo "<a href='data_pendaftar.php?hapus=" . urlencode($waktu_asli) . "' 
                                               class='btn btn-danger btn-sm rounded-pill px-3 shadow-sm fw-bold' 
                                               onclick=\"return confirm('Yakin ingin menghapus data atas nama " . htmlspecialchars($row['nama']) . "?');\">
@@ -584,7 +556,6 @@ $result = $conn->query($sql);
             bootstrap.Modal.getOrCreateInstance(updateNotificationModal).show();
         }
 
-        // 1. Script untuk mengisi form Modal Edit
         function bukaModalEdit(nama, email, layanan, jumlah, pesan, waktu_lama) {
             const formEdit = document.getElementById('formEditData');
             formEdit.elements.edit_nama.value = nama;
@@ -627,7 +598,6 @@ $result = $conn->query($sql);
         formEditData.addEventListener('input', updateSaveButtonState);
         formEditData.addEventListener('change', updateSaveButtonState);
 
-        // 2. Script untuk Checkbox "Pilih Semua" (Check All)
         document.getElementById('checkAll').addEventListener('change', function() {
             var checkboxes = document.querySelectorAll('.checkItem');
             for (var i = 0; i < checkboxes.length; i++) {

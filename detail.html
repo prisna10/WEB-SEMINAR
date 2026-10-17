@@ -36,7 +36,6 @@
 
     <!-- Script internal untuk menangkap data dari index.html -->
     <script>
-        // Menggunakan Objek untuk menyimpan semua informasi (Ditambahkan properti 'gambar')
         const dataProduk = {
             tiketReguler: { kategori: "Tiket", nama: "Tiket Reguler", harga: "Rp 50.000", deskripsi: "Detail: Tiket akan dikirimkan via email H-1 acara. Berlaku untuk 1 orang dengan akses masuk ke seminar, snack box, dan e-sertifikat berpoin SKKM.", gambar: "contoh foto.jpg" },
             tiketVip: { kategori: "Tiket", nama: "Tiket VIP", harga: "Rp 100.000", deskripsi: "Detail: Akses jalur cepat (fast track) dan merchandise spesial saat registrasi ulang. Termasuk kursi barisan depan, makan siang eksklusif, e-sertifikat, dan sesi foto.", gambar: "contoh foto.jpg" },
@@ -46,23 +45,18 @@
             sertifikat: { kategori: "Aksesori", nama: "Cetak Sertifikat & Pigura", harga: "Rp 30.000", deskripsi: "Detail: Dicetak di kertas linen premium dengan pigura kayu minimalis ukuran A4. Layanan cetak sertifikat fisik lengkap.", gambar: "contoh foto.jpg" }
         };
 
-        // Menangkap "parameter" dari URL untuk mendeteksi produk mana yang diklik
         const urlParams = new URLSearchParams(window.location.search);
-        const idProduk = urlParams.get('item'); // Mengambil nilai dari ?item=...
+        const idProduk = urlParams.get('item');
 
-        // Menampilkan detail menggunakan DOM
         if (idProduk && dataProduk[idProduk]) {
-            // Memasukkan gambar sesuai data di atas
             document.getElementById('gambar-detail').src = dataProduk[idProduk].gambar;
             document.getElementById('gambar-detail').alt = dataProduk[idProduk].nama;
             
-            // Memasukkan teks
             document.getElementById('kategori-detail').textContent = dataProduk[idProduk].kategori;
             document.getElementById('judul-detail').textContent = dataProduk[idProduk].nama;
             document.getElementById('harga-detail').textContent = dataProduk[idProduk].harga;
             document.getElementById('deskripsi-detail').textContent = dataProduk[idProduk].deskripsi;
         } else {
-            // Jika produk tidak valid
             document.getElementById('judul-detail').textContent = "Produk tidak ditemukan";
             document.getElementById('kategori-detail').style.display = "none";
             document.getElementById('gambar-detail').style.display = "none";
