@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $nama_input = $_POST['nama'] ?? null;
 $email_input = $_POST['email'] ?? null;
 $pesan_input = $_POST['pesan'] ?? '';
+$persetujuan = $_POST['persetujuan'] ?? null;
 $layanan = filter_input(INPUT_POST, 'layanan', FILTER_VALIDATE_INT);
 $jumlah = filter_input(INPUT_POST, 'jumlah', FILTER_VALIDATE_INT);
 $produk = [
@@ -47,6 +48,7 @@ if (
     || $jumlah === false
     || $jumlah === null
     || $jumlah < 1
+    || $persetujuan !== '1'
 ) {
     respond(400, false, 'Data pendaftaran tidak valid. Periksa kembali formulir Anda.');
 }

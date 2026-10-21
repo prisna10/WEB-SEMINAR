@@ -9,6 +9,29 @@ const dataProduk = {
     sertifikat: { nama: "Cetak Sertifikat & Pigura", harga: "Rp 30.000", deskripsi: "Dicetak di kertas linen premium dengan pigura kayu minimalis ukuran A4. Layanan cetak sertifikat fisik lengkap.", gambar: "contoh foto.jpg" }
 };
 
+const filterButtons = document.querySelectorAll(".filter-kategori");
+const produkCards = document.querySelectorAll(".produk-card");
+
+filterButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        const filter = button.dataset.filter;
+
+        filterButtons.forEach(function(item) {
+            const aktif = item === button;
+            item.classList.toggle("active", aktif);
+            item.classList.toggle("btn-primary", aktif);
+            item.classList.toggle("btn-outline-primary", !aktif);
+        });
+
+        produkCards.forEach(function(card) {
+            card.classList.toggle(
+                "is-hidden",
+                filter !== "semua" && card.dataset.kategori !== filter
+            );
+        });
+    });
+});
+
 function bukaDetail(idItem) {
     const item = dataProduk[idItem];
     
@@ -73,9 +96,51 @@ btnHitung.addEventListener("click", function() {
 
 const formPemesanan = document.querySelector("#form-pemesanan");
 const pesanSimulasi = document.querySelector("#pesan-simulasi");
+const ringkasanValidasi = document.querySelector("#ringkasan-validasi");
+
+function validasiForm() {
+    const nama = document.querySelector("#nama");
+    const email = document.querySelector("#email");
+    const layanan = document.querySelector("#layanan");
+    const jumlah = document.querySelector("#jumlah");
+    const persetujuan = document.querySelector("#persetujuan");
+    const kesalahan = [];
+
+    const aturan = [
+        [nama, nama.value.trim().length >= 3, "Nama wajib diisi minimal 3 karakter."],
+        [email, email.validity.valid && email.value.trim() !== "", "Masukkan alamat email yang valid."],
+        [layanan, layanan.value !== "", "Pilih sesi atau produk yang ingin dipesan."],
+        [jumlah, Number.isInteger(Number(jumlah.value)) && Number(jumlah.value) >= 1 && Number(jumlah.value) <= 100, "Jumlah harus berupa angka antara 1 sampai 100."],
+        [persetujuan, persetujuan.checked, "Persetujuan wajib dicentang sebelum mengirim formulir."]
+    ];
+
+    aturan.forEach(function([field, valid, pesan]) {
+        field.classList.toggle("is-invalid", !valid);
+        field.classList.toggle("is-valid", valid);
+        if (!valid) {
+            kesalahan.push(pesan);
+        }
+    });
+
+    ringkasanValidasi.textContent = kesalahan.length
+        ? "Periksa kembali formulir: " + kesalahan.join(" ")
+        : "";
+    ringkasanValidasi.classList.toggle("d-none", kesalahan.length === 0);
+    return kesalahan.length === 0;
+}
+
+["#nama", "#email", "#layanan", "#jumlah", "#persetujuan"].forEach(function(selector) {
+    document.querySelector(selector).addEventListener("input", validasiForm);
+    document.querySelector(selector).addEventListener("change", validasiForm);
+});
 
 formPemesanan.addEventListener("submit", function(event) {
     event.preventDefault(); 
+
+    if (!validasiForm()) {
+        pesanSimulasi.style.display = "none";
+        return;
+    }
     
     pesanSimulasi.style.display = "block";
     pesanSimulasi.className = "alert alert-warning mt-3";
@@ -101,6 +166,10 @@ formPemesanan.addEventListener("submit", function(event) {
         modalSukses.show();
         
         formPemesanan.reset();
+        formPemesanan.querySelectorAll(".is-valid").forEach(function(field) {
+            field.classList.remove("is-valid");
+        });
+        ringkasanValidasi.classList.add("d-none");
         hasilEstimasi.textContent = "";
         infoHarga.textContent = "";
         infoJumlah.textContent = "";
