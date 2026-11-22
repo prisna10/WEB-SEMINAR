@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seminar Nasional Sistem Informasi UHW Perbanas</title>
+    
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    
+    <!-- Memasang JavaScript eksternal dengan defer -->
+    <script src="../assets/js/app.js?v=2" defer></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Background gradasi 3 warna (cyan muda, putih kebiruan, dan biru muda) */
+            background: linear-gradient(135deg, #e0f7fa 0%, #f4f7f6 50%, #d4eaf7 100%);
+            background-attachment: fixed; /* Membuat background diam saat discroll */
+        }
+        
+        /* 1. Latar belakang hero dengan animasi gradasi berjalan (Sangat Meriah!) */
+        .hero-section {
+            background: linear-gradient(-45deg, #002244, #00509e, #00b4d8, #00d2ff, #00509e);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            color: white;
+            padding: 90px 0;
+            position: relative;
+            border-bottom: 5px solid #ffc107; /* Garis aksen kuning di bawah hero */
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 2. Gaya untuk gambar pada kartu */
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid #00509e; /* Garis pemisah gambar dan teks */
+        }
+
+        /* 3. Efek animasi melayang saat kartu disorot mouse */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 12px; /* Sudut kartu lebih membulat */
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 15px 30px rgba(0, 180, 216, 0.3) !important; /* Bayangan kebiruan */
+        }
+
+        .produk-card.is-hidden {
+            display: none;
+        }
+
+        /* Tombol yang lebih interaktif */
+        .btn-warning {
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
+        }
+        .btn-warning:hover {
+            transform: scale(1.08);
+            background-color: #ffca2c;
+            box-shadow: 0 6px 15px rgba(255, 193, 7, 0.6);
+        }
+
+        /* 4. Tombol WhatsApp Melayang di Pojok Kanan Bawah */
+        .wa-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            animation: pulse-wa 2s infinite; /* Efek berdenyut */
+            transition: all 0.3s ease;
+        }
+
+        .wa-float:hover {
+            background-color: #1ebe57;
+            transform: scale(1.1);
+            color: #fff;
+        }
+
+        .wa-float svg {
+            width: 35px;
+            height: 35px;
+            fill: currentColor;
+        }
+        @keyframes pulse-wa {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #001a33;">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+                <img src="../assets/uhw.png" alt="Logo UHW Perbanas" height="40" class="me-2"> 
+                UHW
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link text-white" href="#beranda">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#produk">Produk & Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#kontak">Kontak</a></li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link text-info fw-bold" href="https://www.perbanas.ac.id/" target="_blank">Website Kampus</a>
+                    </li>
+                    <!-- Tombol Baru Khusus Akses Data Pendaftar -->
+                    <li class="nav-item">
+                        <a href="../data_pendaftar.php" class="btn btn-outline-light btn-sm rounded-pill fw-bold px-3">
+                             Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <header id="beranda" class="hero-section text-center">
+        <div class="container">
+            <span class="badge bg-warning text-dark mb-3 fs-6 px-3 py-2 rounded-pill shadow-sm">Seminar IT Terbesar 2026</span>
+            <h1 class="fw-bold display-5">Seminar Nasional Sistem Informasi</h1>
+            <h3 class="mb-4 fw-light">Transformasi Digital dan Bisnis di Era Modern</h3>
+            <p class="lead mb-4">Bersama <strong>Prisna Dwi Hanggandau</strong> (Praktisi Data)</p>
+            <a href="#produk" class="btn btn-warning btn-lg fw-bold text-dark rounded-pill px-4 py-2">Lihat Tiket & Merchandise</a>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        
+        <section id="produk" class="mb-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold" style="color: #003366;">Produk & Layanan Seminar</h2>
+                <div style="width: 80px; height: 4px; background-color: #00b4d8; margin: 10px auto; border-radius: 2px;"></div>
+                <p class="text-muted">Pilih tiket dan merchandise resmi Seminar Nasional UHW Perbanas.</p>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-4" role="group" aria-label="Filter kategori produk">
+                <button type="button" class="btn btn-primary rounded-pill px-4 filter-kategori active" data-filter="semua">Semua</button>
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-kategori" data-filter="tiket">Tiket</button>
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-kategori" data-filter="merchandise">Merchandise</button>
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-kategori" data-filter="edukasi">Edukasi</button>
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4 filter-kategori" data-filter="aksesori">Aksesori</button>
+            </div>
+
+            <div class="row g-4">
+                <?php foreach ($seminar->getProducts() as $index => $product): ?>
+                    <div class="col-12 col-md-6 col-lg-4 produk-card" data-kategori="<?= $escape($product->getCategory()) ?>">
+                        <div class="card h-100 shadow-sm border-0">
+                            <img src="<?= $escape($product->getImage()) ?>" class="card-img-top" alt="<?= $escape($product->getName()) ?>">
+                            <div class="card-body d-flex flex-column">
+                                <span class="badge bg-primary mb-2 align-self-start fs-6"><?= $escape($product->getBadge()) ?></span>
+                                <h5 class="card-title fw-bold"><?= $escape($product->getName()) ?></h5>
+                                <h6 class="text-success fw-bold fs-5"><?= $escape($product->getFormattedPrice()) ?></h6>
+                                <p class="card-text text-muted"><?= $escape($product->getDescription()) ?></p>
+                                <p id="detail-info-<?= $index + 1 ?>" class="text-primary small fw-bold" aria-live="polite"></p>
+                                <button id="btn-detail-<?= $index + 1 ?>" type="button" class="btn btn-outline-primary mt-auto rounded-pill fw-bold">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <!-- Halaman Kontak / Formulir Pemesanan -->
+        <section id="kontak" class="py-5 bg-white rounded-4 shadow px-4 border-0">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-4">
+                        <h3 class="fw-bold" style="color: #003366;">Formulir Pemesanan</h3>
+                        <div style="width: 60px; height: 3px; background-color: #00b4d8; margin: 10px auto;"></div>
+                        <p class="text-muted">Isi formulir di bawah ini untuk mendaftar acara dan memesan merchandise.</p>
+                    </div>
+                    
+                   <form id="form-pemesanan" action="../proses_daftar.php" method="POST" novalidate>
+                        <div class="mb-3">
+                            <label for="nama" class="form-label fw-bold text-dark">Nama Lengkap</label>
+                            <input type="text" class="form-control form-control-lg bg-light" id="nama" name="nama" minlength="<?= MIN_NAME_LENGTH ?>" maxlength="<?= MAX_NAME_LENGTH ?>" placeholder="Masukkan nama Anda" required>
+                            <div class="invalid-feedback">Nama wajib diisi minimal 3 karakter.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold text-dark">Alamat Email</label>
+                            <input type="email" class="form-control form-control-lg bg-light" id="email" name="email" maxlength="254" placeholder="contoh@email.com" required>
+                            <div class="invalid-feedback">Masukkan alamat email yang valid.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="layanan" class="form-label fw-bold text-dark">Pilihan Produk / Layanan</label>
+                            <select class="form-select form-select-lg bg-light" id="layanan" name="layanan" required>
+                                <option value="" selected disabled>-- Pilih Produk/Layanan --</option>
+                                <?php foreach ($seminar->getProducts() as $product): ?>
+                                    <option value="<?= $product->getPrice() ?>"><?= $escape($product->getName()) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="invalid-feedback">Pilih sesi atau produk yang ingin dipesan.</div>
+                            <p id="info-harga" class="text-primary fw-bold mt-2 mb-0"></p> 
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="jumlah" class="form-label fw-bold text-dark">Jumlah Pesanan</label>
+                            <input type="number" class="form-control form-control-lg bg-light" id="jumlah" name="jumlah" min="1" max="100" placeholder="Masukkan jumlah" required>
+                            <div class="invalid-feedback">Jumlah harus berupa angka antara 1 sampai 100.</div>
+                            <p id="info-jumlah" class="text-primary small mt-1"></p> 
+                        </div>
+
+                        <div class="mb-3 p-3 bg-light rounded border border-info border-opacity-25">
+                            <button type="button" id="btn-hitung" class="btn btn-outline-success w-100 mb-2 fw-bold rounded-pill">Hitung Estimasi Biaya</button>
+                            <h4 id="hasil-estimasi" class="text-center text-success fw-bold mt-2 mb-0" aria-live="polite"></h4>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="pesan" class="form-label fw-bold text-dark">Pesan Tambahan</label>
+                            <textarea class="form-control bg-light" id="pesan" name="pesan" rows="4" maxlength="<?= MAX_MESSAGE_LENGTH ?>" placeholder="Tuliskan catatan khusus atau pertanyaan Anda di sini..."></textarea>
+                            <div class="invalid-feedback">Pesan tambahan maksimal <?= MAX_MESSAGE_LENGTH ?> karakter.</div>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" value="1" id="persetujuan" name="persetujuan" required>
+                            <label class="form-check-label" for="persetujuan">Saya menyetujui data pendaftaran diproses oleh panitia.</label>
+                            <div class="invalid-feedback">Persetujuan wajib dicentang sebelum mengirim formulir.</div>
+                        </div>
+
+                        <div id="ringkasan-validasi" class="alert alert-danger mt-3 d-none" role="alert" aria-live="polite"></div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold rounded-pill shadow-sm" style="background: linear-gradient(90deg, #00509e, #00b4d8); border: none;">Kirim Pesan & Daftar</button>
+                        </div>
+                        
+                        <div id="pesan-simulasi" class="alert alert-info mt-3 rounded-3" style="display: none;"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="demo-oop" class="mb-5">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <span class="badge bg-info text-dark rounded-pill px-3 py-2">Bukti PHP OOP</span>
+                        <h2 class="fw-bold mt-3" style="color: #003366;">Demo Encapsulation & Komposisi</h2>
+                        <p class="text-muted mb-0">Data diolah melalui getter, setter, dan method kalkulasi pada object.</p>
+                    </div>
+                    <div class="row g-3 text-center">
+                        <div class="col-md-4">
+                            <div class="bg-light rounded-3 p-3 h-100">
+                                <small class="text-muted d-block">Harga sebelum setter</small>
+                                <strong class="fs-5"><?= $escape('Rp ' . number_format($hargaSebelum, 0, ',', '.')) ?></strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-light rounded-3 p-3 h-100">
+                                <small class="text-muted d-block">Harga sesudah setter</small>
+                                <strong class="fs-5 text-success"><?= $escape('Rp ' . number_format($hargaSesudah, 0, ',', '.')) ?></strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-light rounded-3 p-3 h-100">
+                                <small class="text-muted d-block">Total 2 item (method Seminar)</small>
+                                <strong class="fs-5 text-primary"><?= $escape('Rp ' . number_format($demoTotal, 0, ',', '.')) ?></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-4 text-light mt-5" style="background-color: #001a33;">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Universitas Hayam Wuruk Perbanas Surabaya. <br><small class="text-white-50">Dibuat untuk Latihan Pemograman Berbasis Web.</small></p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/6282145735535?text=Halo%20Panitia%20Seminar%20UHW,%20saya%20ingin%20bertanya%20informasi%20lebih%20lanjut%20mengenai%20pendaftaran." target="_blank" class="wa-float" title="Hubungi Panitia via WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <!-- Icon FontAwesome WhatsApp SVG -->
+            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zM223.9 413.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 334.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.5-186.6 184.5zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-2.1-3.6 2.1-3.2 7.6-14.2 1.4-2.8 1.4-5.6 0-8.3-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.7 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+        </svg>
+    </a>
+
+    <!-- Modal Pop-up Sukses -->
+    <!-- Modal Pop-up Detail Produk -->
+    <div class="modal fade" id="modalSukses" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg text-center p-4" style="border-radius: 15px;">
+          <div class="modal-body">
+            <div class="mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#198754" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            </div>
+            <h2 class="text-success fw-bold mb-3">Pendaftaran Berhasil!</h2>
+            <p class="text-muted mb-4 fs-5">Terima kasih, data pemesanan dan pendaftaran Seminar Nasional telah kami terima.</p>
+            <button type="button" class="btn btn-primary px-4 btn-lg fw-bold rounded-pill" data-bs-dismiss="modal">Tutup Jendela</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalDetail" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 15px;">
+          <div class="modal-header border-0 bg-light" style="border-radius: 15px 15px 0 0;">
+            <h5 class="modal-title fw-bold text-dark" id="modalDetailTitle">Nama Produk</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center p-4">
+            <img id="modalDetailImg" src="" class="img-fluid rounded shadow-sm mb-3" style="max-height: 250px; width: 100%; object-fit: cover;" alt="Gambar Produk">
+            <h4 id="modalDetailPrice" class="text-success fw-bold mb-3"></h4>
+            <p id="modalDetailDesc" class="text-muted fs-6 mb-0"></p>
+          </div>
+          <div class="modal-footer border-0 justify-content-center pb-4">
+            <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
+            <a href="#kontak" class="btn btn-primary rounded-pill px-4 fw-bold" onclick="document.getElementById('modalDetail').querySelector('.btn-close').click();">Pesan Sekarang</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

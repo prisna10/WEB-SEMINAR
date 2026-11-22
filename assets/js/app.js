@@ -1,12 +1,12 @@
 console.log("JavaScript aktif");
 
 const dataProduk = {
-    tiketReguler: { nama: "Tiket Reguler", harga: "Rp 50.000", deskripsi: "Tiket akan dikirimkan via email H-1 acara. Berlaku untuk 1 orang dengan akses masuk ke seminar, snack box, dan e-sertifikat berpoin SKKM.", gambar: "contoh foto.jpg" },
-    tiketVip: { nama: "Tiket VIP", harga: "Rp 100.000", deskripsi: "Akses jalur cepat (fast track) dan merchandise spesial saat registrasi ulang. Termasuk kursi barisan depan, makan siang eksklusif, e-sertifikat, dan sesi foto.", gambar: "contoh foto.jpg" },
-    kaos: { nama: "Kaos Seminar Resmi", harga: "Rp 75.000", deskripsi: "Tersedia ukuran S, M, L, XL, XXL. Bahan cotton combed 30s premium edisi khusus 'Transformasi Digital'.", gambar: "contoh foto.jpg" },
-    totebag: { nama: "Totebag Kanvas", harga: "Rp 35.000", deskripsi: "Bahan kanvas tebal dengan resleting. Ukuran 30x40 cm ramah lingkungan dengan logo HIMA SI UHW Perbanas.", gambar: "contoh foto.jpg" },
-    bukuModul: { nama: "Buku Modul Big Data", harga: "Rp 45.000", deskripsi: "Berisi 50 halaman materi cetak berwarna dan ringkasan studi kasus sebagai panduan materi dari Prisna Dwi Hanggandau.", gambar: "contoh foto.jpg" },
-    sertifikat: { nama: "Cetak Sertifikat & Pigura", harga: "Rp 30.000", deskripsi: "Dicetak di kertas linen premium dengan pigura kayu minimalis ukuran A4. Layanan cetak sertifikat fisik lengkap.", gambar: "contoh foto.jpg" }
+    tiketReguler: { nama: "Tiket Reguler", harga: "Rp 50.000", deskripsi: "Tiket akan dikirimkan via email H-1 acara. Berlaku untuk 1 orang dengan akses masuk ke seminar, snack box, dan e-sertifikat berpoin SKKM.", gambar: "../assets/contoh foto.jpg" },
+    tiketVip: { nama: "Tiket VIP", harga: "Rp 100.000", deskripsi: "Akses jalur cepat (fast track) dan merchandise spesial saat registrasi ulang. Termasuk kursi barisan depan, makan siang eksklusif, e-sertifikat, dan sesi foto.", gambar: "../assets/contoh foto.jpg" },
+    kaos: { nama: "Kaos Seminar Resmi", harga: "Rp 75.000", deskripsi: "Tersedia ukuran S, M, L, XL, XXL. Bahan cotton combed 30s premium edisi khusus 'Transformasi Digital'.", gambar: "../assets/contoh foto.jpg" },
+    totebag: { nama: "Totebag Kanvas", harga: "Rp 35.000", deskripsi: "Bahan kanvas tebal dengan resleting. Ukuran 30x40 cm ramah lingkungan dengan logo HIMA SI UHW Perbanas.", gambar: "../assets/contoh foto.jpg" },
+    bukuModul: { nama: "Buku Modul Big Data", harga: "Rp 45.000", deskripsi: "Berisi 50 halaman materi cetak berwarna dan ringkasan studi kasus sebagai panduan materi dari Prisna Dwi Hanggandau.", gambar: "../assets/contoh foto.jpg" },
+    sertifikat: { nama: "Cetak Sertifikat & Pigura", harga: "Rp 30.000", deskripsi: "Dicetak di kertas linen premium dengan pigura kayu minimalis ukuran A4. Layanan cetak sertifikat fisik lengkap.", gambar: "../assets/contoh foto.jpg" }
 };
 
 const filterButtons = document.querySelectorAll(".filter-kategori");
@@ -103,14 +103,16 @@ function validasiForm() {
     const email = document.querySelector("#email");
     const layanan = document.querySelector("#layanan");
     const jumlah = document.querySelector("#jumlah");
+    const pesan = document.querySelector("#pesan");
     const persetujuan = document.querySelector("#persetujuan");
     const kesalahan = [];
 
     const aturan = [
-        [nama, nama.value.trim().length >= 3, "Nama wajib diisi minimal 3 karakter."],
-        [email, email.validity.valid && email.value.trim() !== "", "Masukkan alamat email yang valid."],
+        [nama, nama.value.trim().length >= 3 && nama.value.trim().length <= 100, "Nama wajib diisi 3 sampai 100 karakter."],
+        [email, email.validity.valid && email.value.trim().length <= 254 && email.value.trim() !== "", "Masukkan alamat email yang valid."],
         [layanan, layanan.value !== "", "Pilih sesi atau produk yang ingin dipesan."],
         [jumlah, Number.isInteger(Number(jumlah.value)) && Number(jumlah.value) >= 1 && Number(jumlah.value) <= 100, "Jumlah harus berupa angka antara 1 sampai 100."],
+        [pesan, pesan.value.length <= 500, "Pesan tambahan maksimal 500 karakter."],
         [persetujuan, persetujuan.checked, "Persetujuan wajib dicentang sebelum mengirim formulir."]
     ];
 
@@ -129,7 +131,7 @@ function validasiForm() {
     return kesalahan.length === 0;
 }
 
-["#nama", "#email", "#layanan", "#jumlah", "#persetujuan"].forEach(function(selector) {
+["#nama", "#email", "#layanan", "#jumlah", "#pesan", "#persetujuan"].forEach(function(selector) {
     document.querySelector(selector).addEventListener("input", validasiForm);
     document.querySelector(selector).addEventListener("change", validasiForm);
 });

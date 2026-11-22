@@ -15,6 +15,7 @@ if (
     exit();
 }
 
+// Jika admin sudah login sebelumnya, langsung arahkan ke halaman data
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
     header("Location: data_pendaftar.php");
     exit();
@@ -62,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="card-body p-4 bg-light">
             <div class="alert alert-info py-2">
-                <div class="fw-bold mb-1">Kredensial Admin</div>
+                <div class="fw-bold mb-1">Tes Password</div>
                 <div>Username: <code><?php echo htmlspecialchars(ADMIN_USERNAME, ENT_QUOTES, 'UTF-8'); ?></code></div>
                 <div>Password: <code><?php echo htmlspecialchars(ADMIN_PASSWORD, ENT_QUOTES, 'UTF-8'); ?></code></div>
             </div>
